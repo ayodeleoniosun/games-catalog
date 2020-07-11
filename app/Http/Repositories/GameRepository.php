@@ -19,6 +19,11 @@ class GameRepository
         $this->game = $game;
     }
 
+    public function games() {
+        $games = GameResource::collection($this->game->orderBy('id', 'DESC')->get());
+        return $games;
+    }
+
     public function add($playerId, $data) {
         $rules = [
             'name' => 'required',
@@ -55,10 +60,6 @@ class GameRepository
                 return $details;
             }
         }
-    }
-
-    public function games() {
-
     }
 
     public function gamesPerDay() {

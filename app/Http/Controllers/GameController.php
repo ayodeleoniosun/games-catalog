@@ -26,6 +26,8 @@ class GameController extends Controller
     }
 
     public function games() {
+        $games = $this->game->games();
+        return $this->success($games);
     }
 
     public function gamesPerDay() {
