@@ -44,7 +44,7 @@ class GameRepository
                 return $error_details;
             }
         } else {
-            $game_exists = $this->game->wherePlayerId($playerId)->first();
+            $game_exists = $this->game->whereName($data->name)->whereVersion($data->version)->wherePlayerId($playerId)->first();
             
             if($game_exists) {
                 $details = ['type' => 'error','message' => 'You have created this game before. Try again.'];
@@ -137,8 +137,21 @@ class GameRepository
         return $response;
     }
 
-    public function gamesPerDay() {
+    public function gamesPlayedOnaDate($date) {
+        $played_games = PlayedGameResource::collection($this->played_game->orderBy('id', 'DESC')->get());
+        $all_games = [];
 
+        foreach($played_games as $game) {
+            $date_played = $this->createdOn($game->created_at);
+            $split_date = explode(" ",$date_played);
+            
+            if($date == $split_date[0]) {
+                $the_game = new PlayedGameResource($this->played_game->find($game->id));
+                array_push($all_games, $the_game);
+            }
+        }
+
+        return $all_games;
     }
 
     public function gamesDateRange() {

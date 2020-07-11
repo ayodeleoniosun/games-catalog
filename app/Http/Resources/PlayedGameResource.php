@@ -32,6 +32,7 @@ class PlayedGameResource extends JsonResource
             'invitation_id' => $this->invitation_id,
             'game_id' => $this->game_id,
             'game_name' => ucfirst($this->Games->name),
+            'game_version' => ucfirst($this->Games->version),
             'player_id' => $this->player_id,
             'player_fullname' => ucwords($this->Players->firstname." ".$this->Players->lastname),
             'starter_id' => $this->started_by,

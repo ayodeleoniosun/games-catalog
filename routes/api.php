@@ -19,7 +19,7 @@ Route::prefix('v1')->group(function() {
         Route::post('/add', 'GameController@add');
         Route::post('/play', 'GameController@play');
         Route::get('/', 'GameController@games');
-        Route::get('/date/{date}', 'GameController@gamesPerDay');
+        Route::get('/date/{date}', 'GameController@gamesPlayedOnaDate');
         Route::get('/range/{dateRange}', 'GameController@gamesDateRange');
     });
     

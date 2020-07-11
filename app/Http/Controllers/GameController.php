@@ -36,8 +36,9 @@ class GameController extends Controller
         return $this->success($games);
     }
 
-    public function gamesPerDay() {
-
+    public function gamesPlayedOnaDate($date) {
+        $played_games = $this->game->gamesPlayedOnaDate($date);
+        return $this->success($played_games);
     }
 
     public function gamesDateRange() {
