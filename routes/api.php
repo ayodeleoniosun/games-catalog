@@ -1,18 +1,26 @@
 <?php
 
-use Illuminate\Http\Request;
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('v1')->group(function() {
+	Route::get('/welcome', 'GameController@welcome');
+        
+    //players routes
+    Route::group(['prefix' => 'players'], function() {
+        Route::post('/login', 'PlayerController@login');
+        Route::post('/register', 'PlayerController@register');
+        Route::get('/', 'PlayerController@players');
+        Route::get('/games/{playerId}', 'GameController@playerGames');
+        Route::get('/played-games/{playerId}', 'GameController@playerPlayedGames');
+        Route::get('/top/{month}', 'GameController@topPlayers');
+        Route::get('/top/games/{month}', 'GameController@topPlayersGames');
+    });
+    
+	//games routes
+    Route::group(['prefix' => 'games'], function() {
+        Route::post('/add', 'GameController@add');
+        Route::post('/play', 'GameController@play');
+        Route::get('/', 'GameController@games');
+        Route::get('/date/{date}', 'GameController@gamesPlayedOnaDate');
+        Route::get('/date-range/{startDate}/{endDate}', 'GameController@gamesPlayedOnaDateRange');
+    });
+    
 });
