@@ -25,6 +25,12 @@ class GameController extends Controller
         return $game;
     }
 
+    public function play(Request $request) {
+        $playerId = $this->getPlayerIdFromToken($request);
+        $game = $this->game->play($playerId,$request);
+        return $game;
+    }
+
     public function games() {
         $games = $this->game->games();
         return $this->success($games);

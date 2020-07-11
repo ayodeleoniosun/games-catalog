@@ -4,6 +4,7 @@ namespace App\Http\Repositories;
 use App\Http\CommonHelper;
 use App\Http\Resources\GameResource;
 use App\Models\Game;
+use App\Models\PlayedGame;
 use DB;
 use Validator;
 
@@ -12,11 +13,14 @@ class GameRepository
     use CommonHelper;
     
     protected $game;
+    protected $played_game;
 
     public function __construct(
-        Game $game
+        Game $game,
+        PlayedGame $played_game
     ) {
         $this->game = $game;
+        $this->played_game = $played_game;
     }
 
     public function games() {
@@ -59,6 +63,49 @@ class GameRepository
 
                 return $details;
             }
+        }
+    }
+
+    // public function isGamePlayedToday($playerId, $game_id) {
+    //     $played_games = $this->played_game->wherePlayerId($playerId)->whereGameId($game_id)->get();
+    //     $status = false;
+
+    //     foreach($played_games as $game) {
+    //         $date_played = 
+    //     }
+    // }
+
+    public function play($playerId, $data) {
+        $rules = [
+            'game_id' => 'required',
+        ];
+
+        $validator = Validator::make($data->all(), $rules);
+        $errors = $validator->errors();
+        
+        if($validator->fails()) {
+            foreach($errors->all() as $error) {
+                $error_details = ['type' => 'error', 'message' => 'Select the game you want to play'];
+                return $error_details;
+            }
+        } else {
+            
+            // $is_played_today = $this->isGamedPlayedToday($playerId, $data->game_id);
+            // return $is_played_today;
+
+            $play_game = $this->played_game->create([
+                'game_id' => $data->game_id,
+                'player_id' => $playerId,
+                'type' => 'single',
+                'status' => 'in-progress',
+            ]);
+
+            $details = [
+                'type' => 'success',
+                'play_game' => $play_game,
+            ];
+
+            return $details;
         }
     }
 

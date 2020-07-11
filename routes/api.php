@@ -17,6 +17,7 @@ Route::prefix('v1')->group(function() {
 	//games routes
     Route::group(['prefix' => 'games'], function() {
         Route::post('/add', 'GameController@add');
+        Route::post('/play', 'GameController@play');
         Route::get('/', 'GameController@games');
         Route::get('/date/{date}', 'GameController@gamesPerDay');
         Route::get('/range/{dateRange}', 'GameController@gamesDateRange');
