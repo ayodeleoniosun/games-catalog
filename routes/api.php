@@ -1,7 +1,7 @@
 <?php
 
 Route::prefix('v1')->group(function() {
-	Route::get('/welcome', 'GamesController@welcome');
+	Route::get('/welcome', 'GameController@welcome');
         
     //players routes
     Route::group(['prefix' => 'players'], function() {
