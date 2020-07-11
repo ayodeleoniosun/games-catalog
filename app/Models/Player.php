@@ -36,19 +36,19 @@ class Player extends Authenticatable implements JWTSubject
     }
 
     public function games() {
-        return $this->hasMany(Games::class);
+        return $this->hasMany(Game::class);
     }
 
     public function invitations() {
-        return $this->hasMany(Invitations::class);
+        return $this->hasMany(Invitation::class);
     }
 
     public function myInvitations() {
-        return $this->hasMany(Invitations::class);
+        return $this->hasMany(Invitation::class);
     }
 
     public function playedGames() {
-        return $this->hasMany(playedGames::class);
+        return $this->hasMany(PlayedGame::class);
     }
 
 }
