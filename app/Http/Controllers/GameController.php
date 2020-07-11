@@ -38,8 +38,9 @@ class GameController extends Controller
 
     }
 
-    public function playerGames() {
-
+    public function playerGames($playerId) {
+        $games = $this->game->playerGames($playerId);
+        return $games;
     }
 
     public function playerPlayedGames() {

@@ -70,8 +70,9 @@ class GameRepository
 
     }
 
-    public function playerGames() {
-
+    public function playerGames($playerId) {
+        $games = $this->game->wherePlayerId($playerId)->orderBy('id', 'DESC')->get();
+        return $games;
     }
 
     public function playerPlayedGames() {
