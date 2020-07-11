@@ -16,7 +16,8 @@ class PlayerController extends Controller
     }
 
     public function login(Request $request) {
-
+        $login = $this->player->login($request);
+        return $this->success($login);
     }
 
     public function register(Request $request) {

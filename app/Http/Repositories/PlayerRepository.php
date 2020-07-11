@@ -22,8 +22,73 @@ class PlayerRepository
         $this->player = $player;
     }
 
-    public function login($data) {
+    public function getPlayer($playerId) {
+        return new PlayerResource($this->player->with('games', 'playedGames')->find($playerId));
+    }
 
+    public function getThePlayer($playerId) {
+        return $this->player->with('games', 'playedGames')->find($playerId);
+    }
+
+    public function updateLastLoggedIn($playerId) {
+        $player = $this->getThePlayer($playerId);
+        $player->last_logged_in = date("Y-m-d H:i:s");
+        $player->save();
+        return $player;
+    }
+    
+    public function login($data) {
+        $token = null;
+        $credentials = $data->only('email', 'password');
+        
+        if(!$token = auth('api')->attempt($credentials)) {
+           
+            $details = [
+                'type' => 'error',
+                'message' => 'Incorrect login details'
+            ]; 
+
+            return $details;
+        }
+
+        $player = $this->player->whereEmail($data->email)->first();
+        
+        if($player) {
+            
+            $auth_player = $this->getThePlayer($player->id);
+            $check_password = Hash::check($data->password, $auth_player->password);
+
+            if($check_password ) {
+                $this->updateLastLoggedIn($player->id);
+                $profile = $this->getPlayer($player->id);
+                
+                $details = [
+                    'type' => 'success',
+                    'player' => $profile,
+                    'token' => $token
+                ];
+                
+                return $details;
+            
+            } else {
+            
+                $details = [
+                    'type' => 'error',
+                    'message' => 'Incorrect login details'
+                ]; 
+
+                return $details;
+            }
+
+        } else {
+        
+            $details = [
+                'type' => 'error',
+                'message' => 'Incorrect login details'
+            ];    
+        
+            return $details;
+        }
     }
 
     public function register($data) {
