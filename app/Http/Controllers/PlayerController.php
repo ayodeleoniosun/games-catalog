@@ -20,7 +20,8 @@ class PlayerController extends Controller
     }
 
     public function register(Request $request) {
-
+        $player = $this->player->register($request);
+        return $player;
     }
 
     public function players() {

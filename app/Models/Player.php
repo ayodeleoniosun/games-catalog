@@ -13,6 +13,7 @@ class Player extends Authenticatable implements JWTSubject
     protected $table = 'players';
 	
 	protected $fillable = [
+        'nickname',
     	'firstname', 
     	'lastname',
     	'email',
