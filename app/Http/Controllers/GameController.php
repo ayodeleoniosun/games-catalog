@@ -41,8 +41,9 @@ class GameController extends Controller
         return $this->success($played_games);
     }
 
-    public function gamesDateRange() {
-
+    public function gamesPlayedOnaDateRange($start_date, $end_date) {
+        $played_games = $this->game->gamesPlayedOnaDateRange($start_date, $end_date);
+        return $this->success($played_games);
     }
 
     public function playerGames($playerId) {

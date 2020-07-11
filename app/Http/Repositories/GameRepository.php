@@ -154,8 +154,24 @@ class GameRepository
         return $all_games;
     }
 
-    public function gamesDateRange() {
+    public function gamesPlayedOnaDateRange($start_date, $end_date) {
+        $played_games = PlayedGameResource::collection($this->played_game->orderBy('id', 'DESC')->get());
+        $all_games = [];
+        $start_date = strtotime($start_date);
+        $end_date = strtotime($end_date);
 
+        foreach($played_games as $game) {
+            $date_played = $this->createdOn($game->created_at);
+            $datetime = explode(" ",$date_played);
+            $game_timestamp = strtotime($datetime[0]);
+            
+            if( ($game_timestamp >= $start_date) && ($game_timestamp <= $end_date) ) {
+                $the_game = new PlayedGameResource($this->played_game->find($game->id));
+                array_push($all_games, $the_game);
+            }
+        }
+
+        return $all_games;
     }
 
     public function playerGames($playerId) {
