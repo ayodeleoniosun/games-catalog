@@ -26,7 +26,8 @@ class PlayerController extends Controller
     }
 
     public function players() {
-
+        $player = $this->player->players();
+        return $this->success($player);
     }
 
 }

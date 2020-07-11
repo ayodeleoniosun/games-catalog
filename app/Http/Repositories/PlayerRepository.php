@@ -30,6 +30,11 @@ class PlayerRepository
         return $this->player->with('games', 'playedGames')->find($playerId);
     }
 
+    public function players() {
+        $players = PlayerResource::collection($this->player->with('games', 'playedGames')->orderBy('id', 'DESC')->get());
+        return $players;
+    }
+
     public function updateLastLoggedIn($playerId) {
         $player = $this->getThePlayer($playerId);
         $player->last_logged_in = date("Y-m-d H:i:s");
@@ -137,9 +142,5 @@ class PlayerRepository
                 return $details;
             }
         }
-    }
-
-    public function players() {
-        
     }
 }
