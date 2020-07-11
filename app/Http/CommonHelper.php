@@ -50,6 +50,14 @@ trait CommonHelper
         return $resource;
     }
 
+    public static function getRuntimeStats($endTime, $startTime, $memory_usage) {
+        $runtime = $endTime - $startTime;
+        return [
+            'runtime' => $runtime." seconds",
+            'memory-used' => round($memory_usage/1024)." bytes"
+        ];
+    }
+    
     public static function createdOn($date) {
         $encoded_date = json_encode($date);
         $created_on = json_decode($encoded_date)->date;
