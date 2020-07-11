@@ -13,7 +13,7 @@ class Invitation extends Model
 	protected $fillable = [
         'game_id',
         'created_by',
-        'player_id',
+        'invited_player',
         'status'
     ];
 
@@ -28,6 +28,6 @@ class Invitation extends Model
     }
 
     public function players() {
-        return $this->belongsTo(Player::class, 'player_id', 'id');
+        return $this->belongsTo(Player::class, 'invited_player', 'id');
     }
 }

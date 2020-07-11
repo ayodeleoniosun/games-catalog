@@ -18,7 +18,7 @@ class Game extends Model
 
     protected $dates = ['deleted_at'];
 
-    public function player() {
+    public function players() {
         return $this->belongsTo(Player::class, 'player_id', 'id');
     }
 }
