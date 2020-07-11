@@ -87,6 +87,9 @@ class GameRepository
     }
 
     public function play($playerId, $data) {
+        $executionStartTime = microtime(true);
+        $response;
+
         $rules = [
             'game_id' => 'required',
         ];
@@ -96,17 +99,22 @@ class GameRepository
         
         if($validator->fails()) {
             foreach($errors->all() as $error) {
-                $error_details = ['type' => 'error', 'message' => 'Select the game you want to play'];
-                return $error_details;
+                $response = ['type' => 'error', 'message' => 'Select the game you want to play'];
+                return $response;
             }
         } else {
             
             $is_played_today = $this->isGamePlayedToday($playerId, $data->game_id);
-            
+            $memory_usage = memory_get_usage();
+                
             if($is_played_today == "true") {
-                $error_details = ['type' => 'error', 'message' => 'You have played this game today'];
-                return $error_details;
+                $executionEndTime = microtime(true);
+                $runtime_stats = $this->getRuntimeStats($executionEndTime, $executionStartTime, $memory_usage);
+                $response = ['type' => 'error', 'message' => 'You have played this game today', 'running-stats' => $runtime_stats];
+                return $response;
+                
             } else {
+                
                 $play_game = $this->played_game->create([
                     'game_id' => $data->game_id,
                     'player_id' => $playerId,
@@ -115,14 +123,18 @@ class GameRepository
                     'status' => 'in-progress',
                 ]);
 
-                $details = [
+                $executionEndTime = microtime(true);
+                $runtime_stats = $this->getRuntimeStats($executionEndTime, $executionStartTime, $memory_usage);
+                
+                $response = [
                     'type' => 'success',
                     'play_game' => $play_game,
+                    'running-stats' => $runtime_stats
                 ];
-
-                return $details;
             }
         }
+
+        return $response;
     }
 
     public function gamesPerDay() {
