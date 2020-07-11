@@ -20,11 +20,12 @@ class GameController extends Controller
     }
 
     public function add(Request $request) {
-
+        $playerId = $this->getPlayerIdFromToken($request);
+        $game = $this->game->add($playerId,$request);
+        return $game;
     }
 
     public function games() {
-
     }
 
     public function gamesPerDay() {
