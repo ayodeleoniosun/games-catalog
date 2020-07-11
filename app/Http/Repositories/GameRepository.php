@@ -3,6 +3,7 @@
 namespace App\Http\Repositories;
 use App\Http\CommonHelper;
 use App\Http\Resources\GameResource;
+use App\Http\Resources\PlayedGameResource;
 use App\Models\Game;
 use App\Models\PlayedGame;
 use DB;
@@ -122,8 +123,9 @@ class GameRepository
         return $games;
     }
 
-    public function playerPlayedGames() {
-
+    public function playerPlayedGames($playerId) {
+        $played_games = PlayedGameResource::collection($this->played_game->wherePlayerId($playerId)->orderBy('id', 'DESC')->get());
+        return $played_games;
     }
 
     public function topPlayers() {

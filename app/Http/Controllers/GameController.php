@@ -49,8 +49,9 @@ class GameController extends Controller
         return $games;
     }
 
-    public function playerPlayedGames() {
-
+    public function playerPlayedGames($playerId) {
+        $played_games = $this->game->playerPlayedGames($playerId);
+        return $this->success($played_games);
     }
 
     public function topPlayers() {
