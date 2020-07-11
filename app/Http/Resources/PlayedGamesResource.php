@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\CommonHelper;
 
-class playedGamesResource extends JsonResource
+class PlayedGamesResource extends JsonResource
 {
     use CommonHelper;
 
