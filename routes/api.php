@@ -5,10 +5,11 @@ Route::prefix('v1')->group(function() {
         
     //players routes
     Route::group(['prefix' => 'players'], function() {
+        Route::post('/login', 'PlayerController@login');
         Route::post('/register', 'PlayerController@register');
-        Route::get('/', 'PlayersController@players');
+        Route::get('/', 'PlayerController@players');
         Route::get('/games/{playerId}', 'GameController@playerGames');
-        Route::get('/played-games/{playerId}', 'GameController@playerplayedGames');
+        Route::get('/played-games/{playerId}', 'GameController@playerPlayedGames');
         Route::get('/top/{month}', 'GameController@topPlayers');
         Route::get('/top/games/{month}', 'GameController@topPlayersGames');
     });
